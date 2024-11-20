@@ -7,10 +7,27 @@ import OpenLibrarySearch from './components/OpenLibrarySearch'
 import Login from './components/Login'
 import Register from './components/Register'
 import AdminDashboard from './components/AdminDashboard'
+import Cart from './components/Cart'
+import Orders from './components/Orders'
 
-const ProtectedRoute: React.FC<{ element: React.ReactElement, allowedRole: string }> = ({ element, allowedRole }) => {
-  const userRole = localStorage.getItem('userRole')
-  return userRole === allowedRole ? element : <Navigate to="/login" replace />
+interface ProtectedRouteProps {
+  element: React.ReactElement;
+  allowedRole?: 'admin' | 'user';
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, allowedRole }) => {
+  const token = localStorage.getItem('token')
+  const isAdmin = localStorage.getItem('isAdmin') === 'true'
+
+  if (!token) {
+    return <Navigate to="/login" replace />
+  }
+
+  if (allowedRole === 'admin' && !isAdmin) {
+    return <Navigate to="/" replace />
+  }
+
+  return element
 }
 
 const App: React.FC = () => {
@@ -25,7 +42,30 @@ const App: React.FC = () => {
           <Route path="/register" element={<Register />} />
           <Route 
             path="/admin" 
-            element={<ProtectedRoute element={<AdminDashboard />} allowedRole="admin" />} 
+            element={
+              <ProtectedRoute 
+                element={<AdminDashboard />} 
+                allowedRole="admin" 
+              />
+            } 
+          />
+          <Route 
+            path="/cart" 
+            element={
+              <ProtectedRoute 
+                element={<Cart />} 
+                allowedRole="user" 
+              />
+            } 
+          />
+          <Route 
+            path="/orders" 
+            element={
+              <ProtectedRoute 
+                element={<Orders />} 
+                allowedRole="user" 
+              />
+            } 
           />
         </Routes>
       </Layout>
