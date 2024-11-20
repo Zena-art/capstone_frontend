@@ -1,46 +1,27 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import BookList from '../components/BookList'
-import { Book } from '../types'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Home: React.FC = () => {
-  const [books, setBooks] = useState<Book[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await axios.get<Book[]>('http://localhost:3000/api/books')
-        console.log('API response:', response.data)
-        if (Array.isArray(response.data)) {
-          setBooks(response.data)
-        } else {
-          throw new Error('Received data is not an array')
-        }
-      } catch (err) {
-        console.error('Error fetching books:', err)
-        setError('Failed to load books. Please try again later.')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchBooks()
-  }, [])
-
-  if (loading) {
-    return <div className="text-center mt-8">Loading books...</div>
-  }
-
-  if (error) {
-    return <div className="text-center mt-8 text-red-600">{error}</div>
-  }
-
   return (
-    <div className="container mx-auto px-4">
-      <h1 className="text-3xl font-bold mb-6">Welcome to PageTurner</h1>
-      <BookList books={books} />
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold mb-6 text-gray-800">Welcome to PageTurner</h1>
+      <p className="text-xl mb-8 text-gray-600">Your one-stop shop for all your reading needs.</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Link 
+          to="/books" 
+          className="bg-blue-500 text-white p-6 rounded-lg shadow-md hover:bg-blue-600 transition duration-200"
+        >
+          <h2 className="text-2xl font-semibold mb-2">Browse Books</h2>
+          <p className="text-blue-100">Explore our extensive collection of books</p>
+        </Link>
+        <Link 
+          to="/open-library" 
+          className="bg-green-500 text-white p-6 rounded-lg shadow-md hover:bg-green-600 transition duration-200"
+        >
+          <h2 className="text-2xl font-semibold mb-2">Open Library Search</h2>
+          <p className="text-green-100">Search for books in the Open Library database</p>
+        </Link>
+      </div>
     </div>
   )
 }
