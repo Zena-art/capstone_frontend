@@ -1,32 +1,38 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import api from '../utils/api'
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    try {
-      const response = await axios.post('/api/auth/login', { email, password })
-      localStorage.setItem('token', response.data.token)
-      
-      // Fetch user details
-      const userResponse = await axios.get('/api/auth/me', {
-        headers: { 'x-auth-token': response.data.token }
-      })
-      localStorage.setItem('isAdmin', userResponse.data.isAdmin.toString())
+    setIsLoading(true)
+    setError('')
 
-      if (userResponse.data.isAdmin) {
-        navigate('/admin')
+    try {
+      const response = await api.post('/auth/login', { email, password })
+      console.log('Login response:', response.data)
+      
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token)
+        navigate('/')
       } else {
-        navigate('/profile')
+        throw new Error('No token received from server')
       }
     } catch (err) {
-      setError('Invalid Credentials')
+      console.error('Login error:', err)
+      if (err instanceof Error) {
+        setError(err.message || 'Login failed. Please try again.')
+      } else {
+        setError('An unexpected error occurred. Please try again.')
+      }
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -57,8 +63,12 @@ const Login: React.FC = () => {
             className="w-full px-3 py-2 border rounded"
           />
         </div>
-        <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded">
-          Login
+        <button 
+          type="submit" 
+          className="w-full bg-blue-500 text-white py-2 rounded disabled:bg-blue-300"
+          disabled={isLoading}
+        >
+          {isLoading ? 'Logging in...' : 'Login'}
         </button>
       </form>
     </div>

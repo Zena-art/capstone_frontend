@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { ShoppingBag, AlertCircle } from 'lucide-react'
 
 interface OrderItem {
   _id: string
@@ -40,14 +41,32 @@ const Orders: React.FC = () => {
     fetchOrders()
   }, [])
 
-  if (loading) return <div className="text-center mt-8">Loading orders...</div>
-  if (error) return <div className="text-center mt-8 text-red-600">{error}</div>
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="text-center mt-8 text-red-600 flex flex-col items-center">
+        <AlertCircle className="w-12 h-12 mb-2" />
+        <p>{error}</p>
+      </div>
+    )
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Your Orders</h1>
       {orders.length === 0 ? (
-        <p>You haven't placed any orders yet.</p>
+        <div className="text-center py-12 bg-gray-100 rounded-lg">
+          <ShoppingBag className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+          <p className="text-xl text-gray-600 mb-2">You haven't placed any orders yet.</p>
+          <p className="text-gray-500">When you make a purchase, your orders will appear here.</p>
+        </div>
       ) : (
         <ul className="space-y-6">
           {orders.map(order => (
@@ -61,20 +80,20 @@ const Orders: React.FC = () => {
               <ul className="divide-y divide-gray-200">
                 {order.items.map(item => (
                   <li key={item._id} className="py-2 flex justify-between">
-                    <span>{item.title} (x{item.quantity})</span>
+                    <span className="font-medium">{item.title} <span className="text-gray-600">(x{item.quantity})</span></span>
                     <span>${(item.price * item.quantity).toFixed(2)}</span>
                   </li>
                 ))}
               </ul>
               <div className="mt-4 flex justify-between items-center">
                 <span className="font-semibold">Total:</span>
-                <span className="font-semibold">${order.totalAmount.toFixed(2)}</span>
+                <span className="font-semibold text-lg">${order.totalAmount.toFixed(2)}</span>
               </div>
               <div className="mt-2 text-right">
-                <span className={`inline-block px-2 py-1 rounded ${
-                  order.status === 'Completed' ? 'bg-green-200 text-green-800' :
-                  order.status === 'Processing' ? 'bg-yellow-200 text-yellow-800' :
-                  'bg-gray-200 text-gray-800'
+                <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+                  order.status === 'Completed' ? 'bg-green-100 text-green-800' :
+                  order.status === 'Processing' ? 'bg-yellow-100 text-yellow-800' :
+                  'bg-gray-100 text-gray-800'
                 }`}>
                   {order.status}
                 </span>
