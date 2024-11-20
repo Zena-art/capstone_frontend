@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -7,11 +8,30 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate()
-  const userRole = localStorage.getItem('userRole')
+  const [cartItemCount, setCartItemCount] = useState(0)
+  const token = localStorage.getItem('token')
+  const isAdmin = localStorage.getItem('isAdmin') === 'true'
+
+  useEffect(() => {
+    const fetchCartItemCount = async () => {
+      if (token) {
+        try {
+          const response = await axios.get('/api/cart/count', {
+            headers: { 'x-auth-token': token }
+          })
+          setCartItemCount(response.data.count)
+        } catch (error) {
+          console.error('Error fetching cart item count:', error)
+        }
+      }
+    }
+
+    fetchCartItemCount()
+  }, [token])
 
   const handleLogout = () => {
     localStorage.removeItem('token')
-    localStorage.removeItem('userRole')
+    localStorage.removeItem('isAdmin')
     navigate('/login')
   }
 
@@ -23,14 +43,29 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             PageTurner
           </Link>
           <nav>
-            <ul className="flex space-x-4">
+            <ul className="flex space-x-4 items-center">
               <li><Link to="/" className="hover:text-blue-200">Home</Link></li>
               <li><Link to="/books" className="hover:text-blue-200">Books</Link></li>
               <li><Link to="/open-library" className="hover:text-blue-200">Open Library</Link></li>
-              {userRole === 'admin' && (
+              {token && (
+                <>
+                  <li>
+                    <Link to="/cart" className="hover:text-blue-200 flex items-center">
+                      Cart
+                      {cartItemCount > 0 && (
+                        <span className="ml-1 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                          {cartItemCount}
+                        </span>
+                      )}
+                    </Link>
+                  </li>
+                  <li><Link to="/orders" className="hover:text-blue-200">Orders</Link></li>
+                </>
+              )}
+              {isAdmin && (
                 <li><Link to="/admin" className="hover:text-blue-200">Admin</Link></li>
               )}
-              {userRole ? (
+              {token ? (
                 <li><button onClick={handleLogout} className="hover:text-blue-200">Logout</button></li>
               ) : (
                 <>
