@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import api from '../utils/api'
+import { AxiosError } from 'axios'
 
 const Register: React.FC = () => {
   const [name, setName] = useState('')
@@ -31,7 +32,7 @@ const Register: React.FC = () => {
       }
     } catch (err) {
       console.error('Registration error:', err)
-      if (err.response && err.response.data) {
+      if (err instanceof AxiosError && err.response) {
         setError(err.response.data.msg || 'Registration failed. Please try again.')
       } else if (err instanceof Error) {
         setError(err.message || 'Registration failed. Please try again.')
