@@ -28,19 +28,23 @@ const Cart: React.FC = () => {
     }
   }, [])
 
+  const updateCart = (updatedCart: CartItem[]) => {
+    setCartItems(updatedCart)
+    localStorage.setItem('cart', JSON.stringify(updatedCart))
+    window.dispatchEvent(new Event('cartUpdated'))
+  }
+
   const updateCartItemQuantity = (itemId: string, newQuantity: number) => {
     const updatedCart = cartItems.map(item =>
       item._id === itemId ? { ...item, quantity: Math.max(0, newQuantity) } : item
     ).filter(item => item.quantity > 0)
 
-    setCartItems(updatedCart)
-    localStorage.setItem('cart', JSON.stringify(updatedCart))
+    updateCart(updatedCart)
   }
 
   const removeFromCart = (itemId: string) => {
     const updatedCart = cartItems.filter(item => item._id !== itemId)
-    setCartItems(updatedCart)
-    localStorage.setItem('cart', JSON.stringify(updatedCart))
+    updateCart(updatedCart)
   }
 
   const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
@@ -69,7 +73,7 @@ const Cart: React.FC = () => {
               <div className="flex items-center">
                 <button
                   onClick={() => updateCartItemQuantity(item._id, item.quantity - 1)}
-                  className="p-1 rounded-full hover:bg-gray-200"
+                  className="p-1 rounded-full hover:bg-gray-200 transition-colors duration-200"
                   aria-label="Decrease quantity"
                 >
                   <Minus className="h-4 w-4" />
@@ -77,14 +81,14 @@ const Cart: React.FC = () => {
                 <span className="mx-2">{item.quantity}</span>
                 <button
                   onClick={() => updateCartItemQuantity(item._id, item.quantity + 1)}
-                  className="p-1 rounded-full hover:bg-gray-200"
+                  className="p-1 rounded-full hover:bg-gray-200 transition-colors duration-200"
                   aria-label="Increase quantity"
                 >
                   <Plus className="h-4 w-4" />
                 </button>
                 <button
                   onClick={() => removeFromCart(item._id)}
-                  className="ml-4 p-1 text-red-600 hover:text-red-800"
+                  className="ml-4 p-1 text-red-600 hover:text-red-800 transition-colors duration-200"
                   aria-label="Remove item"
                 >
                   <Trash2 className="h-5 w-5" />

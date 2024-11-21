@@ -21,7 +21,7 @@ interface PaginatedResponse {
   totalBooks: number
 }
 
-const AdminDashboard: React.FC = () => {
+export default function Component() {
   const [books, setBooks] = useState<Book[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -289,5 +289,3 @@ const AdminDashboard: React.FC = () => {
     </div>
   )
 }
-
-export default AdminDashboard

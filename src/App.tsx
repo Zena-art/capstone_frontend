@@ -10,7 +10,12 @@ import OpenLibrarySearch from './components/OpenLibrarySearch'
 import Cart from './components/Cart'
 import Orders from './components/Orders'
 
-const ProtectedRoute: React.FC<{ element: React.ReactElement; adminOnly?: boolean }> = ({ element, adminOnly = false }) => {
+interface ProtectedRouteProps {
+  element: React.ReactElement
+  adminOnly?: boolean
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, adminOnly = false }) => {
   const isAuthenticated = !!localStorage.getItem('token')
   const isAdmin = localStorage.getItem('isAdmin') === 'true'
 
@@ -25,7 +30,7 @@ const ProtectedRoute: React.FC<{ element: React.ReactElement; adminOnly?: boolea
   return element
 }
 
-const App: React.FC = () => {
+export default function App() {
   return (
     <Router>
       <Layout>
@@ -41,15 +46,9 @@ const App: React.FC = () => {
             path="/admin" 
             element={<ProtectedRoute element={<AdminDashboard />} adminOnly={true} />} 
           />
-          {/* Add other admin routes as needed */}
-          <Route path="/admin/manage-books" element={<ProtectedRoute element={<div>Manage Books</div>} adminOnly={true} />} />
-          <Route path="/admin/manage-users" element={<ProtectedRoute element={<div>Manage Users</div>} adminOnly={true} />} />
-          <Route path="/admin/manage-orders" element={<ProtectedRoute element={<div>Manage Orders</div>} adminOnly={true} />} />
-          <Route path="/admin/reports" element={<ProtectedRoute element={<div>Reports</div>} adminOnly={true} />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Layout>
     </Router>
   )
 }
-
-export default App
