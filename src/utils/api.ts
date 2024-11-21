@@ -11,23 +11,30 @@ api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token')
     if (token) {
-      config.headers['x-auth-token'] = token
+      config.headers['Authorization'] = `Bearer ${token}`
     }
     return config
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    console.error('Request interceptor error:', error)
+    return Promise.reject(error)
+  }
 )
 
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
-      // Handle 401 Unauthorized error
-      console.log('Unauthorized, redirecting to login...')
-      // Clear the token from localStorage
-      localStorage.removeItem('token')
-      // Redirect to login page
-      window.location.href = '/login'
+    if (error.response) {
+      console.error('Response error:', error.response.status, error.response.data)
+      if (error.response.status === 401) {
+        console.log('Unauthorized, redirecting to login...')
+        localStorage.removeItem('token')
+        window.location.href = '/login'
+      }
+    } else if (error.request) {
+      console.error('No response received:', error.request)
+    } else {
+      console.error('Error setting up request:', error.message)
     }
     return Promise.reject(error)
   }
