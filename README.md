@@ -119,7 +119,7 @@ pageturner/
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments
+
 
 ## Deployment
 
@@ -127,6 +127,9 @@ This project is automatically deployed to Netlify on every push to the main bran
 
 - Deployed URL: https://your-site-name.netlify.app
 - Last deployment status: [View in Netlify Dashboard](https://zena-nazim-pageturner.netlify.app/)
+## Acknowledgments
+
+
 
 To view the latest deployment, simply visit the Deployed URL above.
 
