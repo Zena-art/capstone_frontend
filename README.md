@@ -121,6 +121,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
+## Deployment
+
+This project is automatically deployed to Netlify on every push to the main branch.
+
+- Deployed URL: https://your-site-name.netlify.app
+- Last deployment status: [View in Netlify Dashboard](https://zena-nazim-pageturner.netlify.app/)
+
+To view the latest deployment, simply visit the Deployed URL above.
+
 - [Open Library API](https://openlibrary.org/developers/api) for providing access to their extensive book catalog.
 - [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework.
 - [Lucide](https://lucide.dev/) for the beautiful icon set.
