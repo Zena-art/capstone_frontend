@@ -2,7 +2,7 @@
 
 PageTurner is a full-stack web application for an online bookstore, providing users with a platform to browse, search, and purchase books. It also integrates with the Open Library API for an extended catalog.
 
-![PageTurner Screenshot]()
+[![Wireframe](images/logo.png)](https://your-project-homepage.com)
 
 ## Features
 
@@ -125,18 +125,19 @@ pageturner/
 
 ## API Endpoints
 
-- \`POST /api/auth/register\`: Register a new user
-- \`POST /api/auth/login\`: Login user
-- \`POST /api/auth/logout\`: Logout user
-- \`GET /api/books\`: Get all books
-- \`POST /api/books\`: Add a new book (admin only)
-- \`PUT /api/books/:id\`: Update a book (admin only)
-- \`DELETE /api/books/:id\`: Delete a book (admin only)
-- \`GET /api/cart\`: Get user's cart
-- \`POST /api/cart\`: Add item to cart
-- \`PUT /api/cart/:id\`: Update cart item
-- \`DELETE /api/cart/:id\`: Remove item from cart
-
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST   | `/api/auth/register` | Register a new user |
+| POST   | `/api/auth/login`    | Login user |
+| POST   | `/api/auth/logout`   | Logout user |
+| GET    | `/api/books`         | Get all books |
+| POST   | `/api/books`         | Add a new book (admin only) |
+| PUT    | `/api/books/:id`     | Update a book (admin only) |
+| DELETE | `/api/books/:id`     | Delete a book (admin only) |
+| GET    | `/api/cart`          | Get user's cart |
+| POST   | `/api/cart`          | Add item to cart |
+| PUT    | `/api/cart/:id`      | Update cart item |
+| DELETE | `/api/cart/:id`      | Remove item from cart |
 ## Contributing
 
 1. Fork the repository
