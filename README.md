@@ -16,19 +16,49 @@ PageTurner is a full-stack web application for an online bookstore, providing us
 ## Technologies Used
 
 ### Frontend
-- React.js
-- TypeScript
-- React Router for navigation
-- Tailwind CSS for styling
-- Lucide React for icons
-- Axios for API requests
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[TypeScript]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
+[TypeScript-url]: https://www.typescriptlang.org/
+[React Router]: https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white
+[React Router-url]: https://reactrouter.com/
+[Tailwind CSS]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
+[Tailwind-url]: https://tailwindcss.com/
+[Lucide React]: https://img.shields.io/badge/Lucide_React-5E5E5E?style=for-the-badge&logo=lucide&logoColor=white
+[Lucide-url]: https://lucide.dev/
+[Axios]: https://img.shields.io/badge/Axios-671DDF?style=for-the-badge&logo=axios&logoColor=white
+[Axios-url]: https://axios-http.com/
+<!-- PROJECT SHIELDS -->
+[![React][React.js]][React-url]
+[![TypeScript][TypeScript]][TypeScript-url]
+[![React Router][React Router]][React Router-url]
+[![Tailwind CSS][Tailwind CSS]][Tailwind-url]
+[![Lucide React][Lucide React]][Lucide-url]
+[![Axios][Axios]][Axios-url]
+
+
 
 ### Backend
-- Node.js
-- Express.js
-- MongoDB for database
-- Mongoose as ODM
-- JSON Web Tokens (JWT) for authentication
+<!-- Backend Technologies -->
+[![Node.js][Node.js]][Node-url]
+[![Express][Express.js]][Express-url]
+[![MongoDB][MongoDB]][MongoDB-url]
+[![Mongoose][Mongoose.js]][Mongoose-url]
+[![JWT][JWT]][JWT-url]
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[Node.js]: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white
+[Node-url]: https://nodejs.org/
+[Express.js]: https://img.shields.io/badge/Express.js-404D59?style=for-the-badge
+[Express-url]: https://expressjs.com/
+[MongoDB]: https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white
+[MongoDB-url]: https://www.mongodb.com/
+[Mongoose.js]: https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white
+[Mongoose-url]: https://mongoosejs.com/
+[JWT]: https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white
+[JWT-url]: https://jwt.io/
 
 ## Project Structure
 pageturner/
