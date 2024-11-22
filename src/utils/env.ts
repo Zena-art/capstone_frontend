@@ -1,3 +1,5 @@
+
+// Get the value of an environment variable
 export const getEnvVariable = (key: string): string => {
   if (import.meta.env && import.meta.env[key]) {
     return import.meta.env[key] as string;

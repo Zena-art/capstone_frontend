@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import api from '../utils/api'
 
+// Define the Login component
 const Login: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -13,11 +14,11 @@ const Login: React.FC = () => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
-
+    // Perform login logic
     try {
       const response = await api.post('/auth/login', { email, password })
       console.log('Login response:', response.data)
-      
+      // Handle successful login
       if (response.data.token) {
         localStorage.setItem('token', response.data.token)
         // Decode the token to get user information
@@ -43,6 +44,7 @@ const Login: React.FC = () => {
   }
 
   return (
+    // Render the login form
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
       {error && (
@@ -82,7 +84,8 @@ const Login: React.FC = () => {
           className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           disabled={isLoading}
         >
-          {isLoading ? 'Logging in...' : 'Login'}
+          
+          {isLoading ? 'Logging in...' : 'Login'} 
         </button>
       </form>
       <p className="mt-4 text-center text-sm text-gray-600">

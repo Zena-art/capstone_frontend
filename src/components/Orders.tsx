@@ -23,12 +23,14 @@ const Orders: React.FC = () => {
   const [error, setError] = useState('')
 
   useEffect(() => {
+    // Fetch orders
     const fetchOrders = async () => {
       try {
         const token = localStorage.getItem('token')
         const response = await axios.get('/api/orders', {
           headers: { 'x-auth-token': token }
         })
+        // Update orders state
         setOrders(response.data)
         setLoading(false)
       } catch (err) {
@@ -50,6 +52,7 @@ const Orders: React.FC = () => {
   }
 
   if (error) {
+    // Display error message
     return (
       <div className="text-center mt-8 text-red-600 flex flex-col items-center">
         <AlertCircle className="w-12 h-12 mb-2" />

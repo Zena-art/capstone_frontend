@@ -3,6 +3,7 @@ import { PlusCircle, Pencil, Trash2, AlertCircle, ChevronLeft, ChevronRight } fr
 import api from '../utils/api'
 import { useNavigate } from 'react-router-dom'
 
+// Define interfaces for type safety
 interface Book {
   _id: string
   title: string
@@ -22,6 +23,7 @@ interface PaginatedResponse {
 }
 
 export default function Component() {
+  // State management using React hooks
   const [books, setBooks] = useState<Book[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -36,10 +38,12 @@ export default function Component() {
   })
   const navigate = useNavigate()
 
+  // Fetch books when the component mounts or when the page changes
   useEffect(() => {
     fetchBooks(currentPage)
   }, [currentPage])
 
+  // Function to fetch books from the API
   const fetchBooks = async (page: number) => {
     try {
       setLoading(true)
@@ -60,11 +64,13 @@ export default function Component() {
     }
   }
 
+  // Handle input changes in the form
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
+  // Handle form submission for adding or editing a book
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
@@ -98,6 +104,7 @@ export default function Component() {
     }
   }
 
+  // Handle book deletion
   const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this book?')) {
       try {
@@ -118,12 +125,14 @@ export default function Component() {
     }
   }
 
+  // Reset form and editing state
   const resetForm = () => {
     setFormData({ isbn: '', price: '', stockQuantity: '' })
     setIsAddingBook(false)
     setEditingBook(null)
   }
 
+  // Start editing a book
   const startEditing = (book: Book) => {
     setEditingBook(book)
     setFormData({
@@ -137,6 +146,7 @@ export default function Component() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard - Manage Books</h1>
       
+      {/* Error display */}
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
           <AlertCircle className="inline-block mr-2" />
@@ -144,6 +154,7 @@ export default function Component() {
         </div>
       )}
 
+      {/* Add new book button */}
       {!isAddingBook && !editingBook && (
         <button
           onClick={() => setIsAddingBook(true)}
@@ -153,6 +164,7 @@ export default function Component() {
         </button>
       )}
 
+      {/* Add/Edit book form */}
       {(isAddingBook || editingBook) && (
         <form onSubmit={handleSubmit} className="mb-8 bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold mb-4">{editingBook ? 'Edit Book' : 'Add New Book'}</h2>
@@ -216,6 +228,7 @@ export default function Component() {
         </form>
       )}
 
+      {/* Loading spinner */}
       {loading ? (
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
@@ -226,6 +239,7 @@ export default function Component() {
         </div>
       ) : (
         <>
+          {/* Book list table */}
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white">
               <thead className="bg-gray-100">
@@ -265,6 +279,7 @@ export default function Component() {
               </tbody>
             </table>
           </div>
+          {/* Pagination controls */}
           <div className="mt-4 flex justify-center">
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}

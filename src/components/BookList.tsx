@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { ShoppingCart, AlertCircle, Plus, Minus } from 'lucide-react'
 import api from '../utils/api'
 
+// Define interfaces for type safety
 interface Book {
   _id: string
   title: string
@@ -25,24 +26,29 @@ interface PaginatedResponse {
 }
 
 const BookList: React.FC = () => {
+  // State management using React hooks
   const [books, setBooks] = useState<Book[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [cart, setCart] = useState<CartItem[]>(() => {
+    // Initialize cart from localStorage
     const savedCart = localStorage.getItem('cart')
     return savedCart ? JSON.parse(savedCart) : []
   })
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
 
+  // Fetch books when component mounts or page changes
   useEffect(() => {
     fetchBooks()
   }, [currentPage])
 
+  // Update localStorage when cart changes
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart))
   }, [cart])
 
+  // Function to fetch books from the API
   const fetchBooks = async () => {
     try {
       setLoading(true)
@@ -59,6 +65,7 @@ const BookList: React.FC = () => {
     }
   }
 
+  // Function to add a book to the cart
   const addToCart = (book: Book) => {
     setCart(prevCart => {
       const existingItem = prevCart.find(item => item._id === book._id)
@@ -72,10 +79,12 @@ const BookList: React.FC = () => {
     })
   }
 
+  // Function to remove a book from the cart
   const removeFromCart = (bookId: string) => {
     setCart(prevCart => prevCart.filter(item => item._id !== bookId))
   }
 
+  // Function to update the quantity of a book in the cart
   const updateCartItemQuantity = (bookId: string, newQuantity: number) => {
     setCart(prevCart => 
       prevCart.map(item => 
@@ -86,12 +95,14 @@ const BookList: React.FC = () => {
     )
   }
 
+  // Calculate the total price of items in the cart
   const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0)
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Book Store</h1>
       
+      {/* Error display */}
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
           <AlertCircle className="inline-block mr-2" />
@@ -99,6 +110,7 @@ const BookList: React.FC = () => {
         </div>
       )}
 
+      {/* Loading spinner or book list */}
       {loading ? (
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
@@ -107,6 +119,7 @@ const BookList: React.FC = () => {
         <p className="text-center text-gray-500 text-xl">No books available.</p>
       ) : (
         <>
+          {/* Book grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {books.map((book) => (
               <div key={book._id} className="bg-white shadow-md rounded-lg overflow-hidden">
@@ -128,6 +141,7 @@ const BookList: React.FC = () => {
               </div>
             ))}
           </div>
+          {/* Pagination controls */}
           <div className="mt-8 flex justify-center">
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
@@ -148,6 +162,7 @@ const BookList: React.FC = () => {
         </>
       )}
 
+      {/* Shopping Cart */}
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
         {cart.length === 0 ? (

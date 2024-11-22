@@ -14,15 +14,15 @@ interface ProtectedRouteProps {
   element: React.ReactElement
   adminOnly?: boolean
 }
-
+// Define the ProtectedRoute component
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, adminOnly = false }) => {
   const isAuthenticated = !!localStorage.getItem('token')
   const isAdmin = localStorage.getItem('isAdmin') === 'true'
-
+// Check if the user is authenticated and if they have admin privileges
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />
   }
-
+// If adminOnly is true and the user is not an admin, redirect to the home page
   if (adminOnly && !isAdmin) {
     return <Navigate to="/" replace />
   }

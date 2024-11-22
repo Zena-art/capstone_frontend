@@ -12,15 +12,17 @@ const Register: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
 
+   // Function to handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
 
     try {
+      // Perform registration logic
       const response = await api.post('/auth/register', { name, email, password, isAdmin })
       console.log('Registration response:', response.data)
-      
+      // Handle successful registration
       if (response.data.token) {
         localStorage.setItem('token', response.data.token)
         // Decode the token to get user information
@@ -30,6 +32,7 @@ const Register: React.FC = () => {
       } else {
         throw new Error('No token received from server')
       }
+      // Handle registration errors
     } catch (err) {
       console.error('Registration error:', err)
       if (err instanceof AxiosError && err.response) {

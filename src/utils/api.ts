@@ -1,12 +1,12 @@
 import axios from 'axios'
-
+// Create axios instance
 const api = axios.create({
   baseURL: '/api',
   headers: {
     'Content-Type': 'application/json',
   },
 })
-
+// Add request interceptor
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token')
@@ -20,8 +20,9 @@ api.interceptors.request.use(
     return Promise.reject(error)
   }
 )
-
+// Add response interceptor
 api.interceptors.response.use(
+  // Handle successful responses
   (response) => response,
   (error) => {
     if (error.response) {
@@ -31,6 +32,7 @@ api.interceptors.response.use(
         localStorage.removeItem('token')
         window.location.href = '/login'
       }
+      // Handle other response errors
     } else if (error.request) {
       console.error('No response received:', error.request)
     } else {

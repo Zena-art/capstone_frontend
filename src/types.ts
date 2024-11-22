@@ -1,3 +1,5 @@
+
+// Define interfaces for type safety
 export interface Book {
   _id: string;
   title: string;

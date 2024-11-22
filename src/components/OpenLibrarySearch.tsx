@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 
+
+// Define interfaces for type safety
 interface OpenLibraryBook {
   key: string
   title: string
@@ -9,6 +11,7 @@ interface OpenLibraryBook {
   first_publish_year?: number
 }
 
+// OpenLibrarySearch component
 const OpenLibrarySearch: React.FC = () => {
   const [query, setQuery] = useState('')
   const [books, setBooks] = useState<OpenLibraryBook[]>([])
@@ -19,8 +22,9 @@ const OpenLibrarySearch: React.FC = () => {
     e.preventDefault()
     setLoading(true)
     setError('')
-
+    // Perform search logic
     try {
+      // Make a request to the Open Library API
       const response = await axios.get(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`)
       setBooks(response.data.docs)
     } catch (err) {
@@ -30,7 +34,7 @@ const OpenLibrarySearch: React.FC = () => {
       setLoading(false)
     }
   }
-
+  
   return (
     <div className="container mx-auto px-4">
       <h2 className="text-2xl font-bold mb-4">Search Open Library</h2>

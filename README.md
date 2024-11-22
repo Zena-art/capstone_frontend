@@ -2,7 +2,7 @@
 
 PageTurner is a full-stack web application for an online bookstore, providing users with a platform to browse, search, and purchase books. It also integrates with the Open Library API for an extended catalog.
 
-![PageTurner Screenshot](https://example.com/pageturner-screenshot.png)
+![PageTurner Screenshot]()
 
 ## Features
 

@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+/// Define the Home component as a functional component
 const Home: React.FC = () => {
+  // Initialize state variables to track login status and admin status
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
 
+  // Use the useEffect hook to check for a token in local storage on component mount
   useEffect(() => {
+    // Get the token and admin status from local storage
     const token = localStorage.getItem('token')
     const adminStatus = localStorage.getItem('isAdmin')
+    // Update the state variables based on the token and admin status
     setIsLoggedIn(!!token)
     setIsAdmin(adminStatus === 'true')
   }, [])
 
   return (
     <div className="container mx-auto px-4 py-8">
+       {/* Header section */}
       <h1 className="text-4xl font-bold mb-6 text-center">Welcome to PageTurner</h1>
       <p className="text-xl text-center mb-8">Your one-stop shop for all your reading needs!</p>
       
@@ -34,7 +40,7 @@ const Home: React.FC = () => {
           </Link>
         </div>
       </div>
-      
+       {/* Conditional rendering for login and register links */}
       {!isLoggedIn && !isAdmin && (
         <div className="mt-12 text-center">
           <h2 className="text-2xl font-semibold mb-4">Get Started Today</h2>

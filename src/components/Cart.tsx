@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Plus, Minus, Trash2 } from 'lucide-react'
 
+// Define the structure of a cart item
 interface CartItem {
   _id: string
   title: string
@@ -10,8 +11,10 @@ interface CartItem {
 }
 
 const Cart: React.FC = () => {
+  // State to hold the items in the cart
   const [cartItems, setCartItems] = useState<CartItem[]>([])
 
+  // Effect to load cart items from localStorage and set up event listener
   useEffect(() => {
     const loadCart = () => {
       const savedCart = localStorage.getItem('cart')
@@ -21,19 +24,24 @@ const Cart: React.FC = () => {
     }
 
     loadCart()
+    // Listen for changes to localStorage from other tabs/windows
     window.addEventListener('storage', loadCart)
 
+    // Cleanup function to remove event listener
     return () => {
       window.removeEventListener('storage', loadCart)
     }
   }, [])
 
+  // Function to update cart in state and localStorage
   const updateCart = (updatedCart: CartItem[]) => {
     setCartItems(updatedCart)
     localStorage.setItem('cart', JSON.stringify(updatedCart))
+    // Dispatch custom event to notify other components of cart update
     window.dispatchEvent(new Event('cartUpdated'))
   }
 
+  // Function to update the quantity of an item in the cart
   const updateCartItemQuantity = (itemId: string, newQuantity: number) => {
     const updatedCart = cartItems.map(item =>
       item._id === itemId ? { ...item, quantity: Math.max(0, newQuantity) } : item
@@ -42,13 +50,16 @@ const Cart: React.FC = () => {
     updateCart(updatedCart)
   }
 
+  // Function to remove an item from the cart
   const removeFromCart = (itemId: string) => {
     const updatedCart = cartItems.filter(item => item._id !== itemId)
     updateCart(updatedCart)
   }
 
+  // Calculate the total price of all items in the cart
   const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
 
+  // Render empty cart message if there are no items
   if (cartItems.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -58,6 +69,7 @@ const Cart: React.FC = () => {
     )
   }
 
+  // Render cart with items
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
