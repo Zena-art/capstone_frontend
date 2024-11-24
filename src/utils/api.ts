@@ -1,11 +1,13 @@
 import axios from 'axios'
+
 // Create axios instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: import.meta.env.VITE_API_URL || 'https://capstone-backend-34va.onrender.com/api',
   headers: {
     'Content-Type': 'application/json',
   },
 })
+
 // Add request interceptor
 api.interceptors.request.use(
   (config) => {
@@ -20,6 +22,7 @@ api.interceptors.request.use(
     return Promise.reject(error)
   }
 )
+
 // Add response interceptor
 api.interceptors.response.use(
   // Handle successful responses
@@ -30,6 +33,7 @@ api.interceptors.response.use(
       if (error.response.status === 401) {
         console.log('Unauthorized, redirecting to login...')
         localStorage.removeItem('token')
+        localStorage.removeItem('isAdmin')
         window.location.href = '/login'
       }
       // Handle other response errors

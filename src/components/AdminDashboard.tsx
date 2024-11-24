@@ -3,7 +3,7 @@ import { PlusCircle, Pencil, Trash2, AlertCircle, ChevronLeft, ChevronRight } fr
 import api from '../utils/api'
 import { useNavigate } from 'react-router-dom'
 
-// Define interfaces for type safety
+// Define the structure of a book object
 interface Book {
   _id: string
   title: string
@@ -15,6 +15,7 @@ interface Book {
   coverImage?: string
 }
 
+// Define the structure of the paginated response
 interface PaginatedResponse {
   books: Book[]
   currentPage: number
@@ -22,8 +23,8 @@ interface PaginatedResponse {
   totalBooks: number
 }
 
-export default function Component() {
-  // State management using React hooks
+export default function AdminDashboard() {
+  // State variables
   const [books, setBooks] = useState<Book[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -32,13 +33,15 @@ export default function Component() {
   const [isAddingBook, setIsAddingBook] = useState(false)
   const [editingBook, setEditingBook] = useState<Book | null>(null)
   const [formData, setFormData] = useState({
+    title: '',
+    author: '',
     isbn: '',
     price: '',
     stockQuantity: ''
   })
   const navigate = useNavigate()
 
-  // Fetch books when the component mounts or when the page changes
+  // Fetch books when the component mounts or when the current page changes
   useEffect(() => {
     fetchBooks(currentPage)
   }, [currentPage])
@@ -70,13 +73,13 @@ export default function Component() {
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
-  // Handle form submission for adding or editing a book
+  // Handle form submission (add or edit book)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
       setLoading(true)
       const bookData = {
-        isbn: formData.isbn,
+        ...formData,
         price: parseFloat(formData.price),
         stockQuantity: parseInt(formData.stockQuantity, 10)
       }
@@ -127,7 +130,7 @@ export default function Component() {
 
   // Reset form and editing state
   const resetForm = () => {
-    setFormData({ isbn: '', price: '', stockQuantity: '' })
+    setFormData({ title: '', author: '', isbn: '', price: '', stockQuantity: '' })
     setIsAddingBook(false)
     setEditingBook(null)
   }
@@ -136,6 +139,8 @@ export default function Component() {
   const startEditing = (book: Book) => {
     setEditingBook(book)
     setFormData({
+      title: book.title,
+      author: book.author,
       isbn: book.isbn,
       price: book.price.toString(),
       stockQuantity: book.stockQuantity.toString()
@@ -146,7 +151,7 @@ export default function Component() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard - Manage Books</h1>
       
-      {/* Error display */}
+      {/* Error message display */}
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
           <AlertCircle className="inline-block mr-2" />
@@ -169,6 +174,30 @@ export default function Component() {
         <form onSubmit={handleSubmit} className="mb-8 bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold mb-4">{editingBook ? 'Edit Book' : 'Add New Book'}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+            <div>
+              <label htmlFor="author" className="block text-sm font-medium text-gray-700 mb-1">Author</label>
+              <input
+                type="text"
+                id="author"
+                name="author"
+                value={formData.author}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
             <div>
               <label htmlFor="isbn" className="block text-sm font-medium text-gray-700 mb-1">ISBN</label>
               <input
@@ -228,7 +257,7 @@ export default function Component() {
         </form>
       )}
 
-      {/* Loading spinner */}
+      {/* Loading spinner or book list */}
       {loading ? (
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
@@ -279,7 +308,8 @@ export default function Component() {
               </tbody>
             </table>
           </div>
-          {/* Pagination controls */}
+          
+          {/* Pagination */}
           <div className="mt-4 flex justify-center">
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}

@@ -24,30 +24,37 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       const adminStatus = localStorage.getItem('isAdmin')
       setIsAdmin(adminStatus === 'true')
     }
+
     // Call updateCartCount and checkAdminStatus on component mount
     updateCartCount()
     checkAdminStatus()
 
+    // Add event listeners for storage and custom cartUpdated event
     window.addEventListener('storage', updateCartCount)
     window.addEventListener('cartUpdated', updateCartCount)
 
+    // Cleanup function to remove event listeners
     return () => {
       window.removeEventListener('storage', updateCartCount)
       window.removeEventListener('cartUpdated', updateCartCount)
     }
   }, [])
+
   // Function to handle logout
   const handleLogout = async () => {
     try {
+      // Call the logout API endpoint
       await api.post('/auth/logout')
     } catch (error) {
       console.error('Error during logout:', error)
     } finally {
+      // Clear local storage and reset state
       localStorage.removeItem('token')
       localStorage.removeItem('isAdmin')
       localStorage.removeItem('cart')
       setCartItemCount(0)
       setIsAdmin(false)
+      // Redirect to login page
       navigate('/login')
     }
   }
@@ -57,10 +64,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen flex flex-col">
       <header className="bg-blue-600 text-white shadow-md">
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
+          {/* Logo and site title */}
           <Link to="/" className="text-2xl font-bold flex items-center">
             <Book className="mr-2" />
             PageTurner
           </Link>
+          {/* Navigation links */}
           <div className="flex items-center space-x-4">
             <Link to="/books" className="hover:text-blue-200 transition-colors duration-200">
               Books
@@ -73,12 +82,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <ShoppingCart className="mr-1" />
               <span>Cart ({cartItemCount})</span>
             </Link>
+            {/* Conditional rendering of Admin link */}
             {isAdmin && (
               <Link to="/admin" className="hover:text-blue-200 transition-colors duration-200 flex items-center">
                 <Settings className="mr-1" />
                 <span>Admin</span>
               </Link>
             )}
+            {/* Logout button */}
             <button
               onClick={handleLogout}
               className="hover:text-blue-200 transition-colors duration-200 flex items-center"
@@ -89,11 +100,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </nav>
       </header>
+      {/* Main content area */}
       <main className="flex-grow container mx-auto px-4 py-8">
         {children}
       </main>
+      {/* Footer */}
       <footer className="bg-gray-100 text-center py-4 mt-8">
-        <p>&copy; 2023 PageTurner. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} PageTurner. All rights reserved.</p>
       </footer>
     </div>
   )
