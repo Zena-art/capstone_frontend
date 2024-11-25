@@ -87,7 +87,7 @@ pageturner/
 
 1. Clone the repository:
    \`\`\`
-   git clone https://github.com/zena-art/pageturner.git
+   git clone https://github.com/zena-art/capstone_frontend
    cd pageturner
    \`\`\`
 
