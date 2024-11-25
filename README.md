@@ -86,10 +86,10 @@ pageturner/
 ### Installation
 
 1. Clone the repository:
-   \\\
-   git clone https://github.com/zena-art/capstone_frontend
-   cd pageturner
-   \`\`\`
+   \\
+   ```git clone https://github.com/zena-art/capstone_frontend```
+   ```cd capstone_frontend```
+   \\
 
 2. Install backend dependencies:
    \`\`\`
