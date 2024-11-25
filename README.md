@@ -92,36 +92,37 @@ pageturner/
    \\
 
 2. Install backend dependencies:
-   \`\`\`
-   cd backend
-   npm install
-   \`\`\`
+   \
+   ```cd backend```
+   ```npm install```
+   \
 
 3. Install frontend dependencies:
-   \`\`\`
-   cd ../frontend
-   npm install
-   \`\`\`
+   <br>
+   ```cd ../frontend```
+   <br>
+   ```npm install```
+   <br>
 
-4. Create a \`.env\` file in the backend directory with the following content:
-   \`\`\`
-   MONGODB_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
-   \`\`\`
+5. Create a \`.env\` file in the backend directory with the following content:
+   <br>
+   ```MONGODB_URI=your_mongodb_connection_string```
+   ```JWT_SECRET=your_jwt_secret```
+   <br>
 
-5. Start the backend server:
-   \`\`\`
-   cd ../backend
-   npm start
-   \`\`\`
+6. Start the backend server:
+   ```cd ../backend```
+   <br>
+   ```npm start```
+   <br>
 
-6. In a new terminal, start the frontend development server:
-   \`\`\`
-   cd ../frontend
-   npm start
-   \`\`\`
+8. In a new terminal, start the frontend development server:
+   <br>
+   ```cd ../frontend```
+   ```npm start```
+ <br>
 
-7. Open your browser and navigate to \`http://localhost:3000\` to view the application.
+9. Open your browser and navigate to \`http://localhost:3000\` to view the application.
 
 ## API Endpoints
 
