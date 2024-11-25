@@ -61,6 +61,8 @@ PageTurner is a full-stack web application for an online bookstore, providing us
 [JWT-url]: https://jwt.io/
 
 ## Project Structure
+
+```
 pageturner/
 ├── frontend/
 │   ├── public/
@@ -75,7 +77,7 @@ pageturner/
 │   ├── middleware/
 │   └── server.js
 └── README.md
-
+```
 
 ## Getting Started
 
